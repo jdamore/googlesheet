@@ -1,4 +1,4 @@
-# Google Sheet vissualisation app
+# Google Sheet visualisation app
 
 ## Setup
 
