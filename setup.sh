@@ -9,5 +9,5 @@ python3 -m pip install google-api-python-client
 python3 -m pip install google-auth-httplib2
 python3 -m pip install google-auth-oauthlib
 
-export GOOGLESHEET_SERVICE_ACCOUNT="${SCRIPTPATH}/googlesheet-service-account.json"
-echo set GOOGLESHEET_SERVICE_ACCOUNT to $GOOGLESHEET_SERVICE_ACCOUNT
+export GOOGLESHEET_OAUTH2_CLIENT="${SCRIPTPATH}/googlesheet-oauth2-client.json"
+echo set GOOGLESHEET_OAUTH2_CLIENT to $GOOGLESHEET_OAUTH2_CLIENT
