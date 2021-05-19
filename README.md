@@ -12,7 +12,6 @@ Setup has been developped and tested on MacOSX 10.15 with zsh.
 To setup the environment and project run:
 
 ```
-cd {googlesheeet}
 . ./setup.sh
 ```
 
@@ -23,8 +22,7 @@ This will create a local virtual environment in the `.venv` directory and instal
 To start the dev server run:
 
 ```
-cd {googlesheeet}
 ./start.sh
 ```
 
-Then you can hit the main URL at [http://127.0.0.1:8000/googlesheet](http://127.0.0.1:8000/googlesheet).
+Then you can hit the main URL at [http://127.0.0.1:8000](http://127.0.0.1:8000).

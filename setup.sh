@@ -7,7 +7,7 @@ source $SCRIPTPATH/.venv/bin/activate
 
 # Install dependencies
 $SCRIPTPATH/.venv/bin/pip3 install --upgrade pip
-$SCRIPTPATH/.venv/bin/pip3 install django
+$SCRIPTPATH/.venv/bin/pip3 install flask
 $SCRIPTPATH/.venv/bin/pip3 install google-api-python-client
 $SCRIPTPATH/.venv/bin/pip3 install google-auth-httplib2
 $SCRIPTPATH/.venv/bin/pip3 install google-auth-oauthlib
