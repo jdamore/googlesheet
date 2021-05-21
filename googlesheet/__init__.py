@@ -1,37 +1,16 @@
 import os
+import flask
 
-from flask import Flask, redirect, request, url_for
-from googleapiclient.discovery import build
-from .oauth2flow import Oauth2flow
-
-SPREADSHEET_ID = '1D1UxlZCocTj5UTnssNe0rSOH4BRPf014yZYxCCuNiqg'
-SPREADSHEET_RANGE = 'Data!A2:E'
-
-# TODO: fix this
-oauth2flow = Oauth2flow('http://localhost:8000/googlesheet')
+from .controllers import home, oauth2, googlesheet
 
 def create_app(test_config=None):
 
-    app = Flask(__name__, instance_relative_config=True)
-
-
-    @app.route('/')
-    def googlesheet():
-        return redirect(oauth2flow.authorization_url)
-
-    
-    @app.route('/googlesheet')
-    def oauth2callback():
-        credentials = oauth2flow.fetch_credentials(request.args.get('code'))
-        service = build('sheets', 'v4', credentials=credentials)
-
-        sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=SPREADSHEET_RANGE).execute()
-        values = result.get('values', [])
-
-        if not values:
-            return 'No values in Spreadsheet ' + SPREADSHEET_ID
-        else:
-            return 'Finished reading spreadsheet %s: first row is %s' % (SPREADSHEET_ID, values[0])
+    print('hello_create_app')
+    app = flask.Flask(__name__, instance_relative_config=True)
+    app.secret_key = 'REPLACE ME - this value is here as a placeholder.'
+    app.add_url_rule('/', 'home', view_func=home.index)
+    app.add_url_rule('/googlesheet', 'googlesheet', view_func=googlesheet.index)
+    app.add_url_rule('/oauth2', 'oauth2', view_func=oauth2.index)
+    app.add_url_rule('/oauth2/callback', 'oauth2_callback', view_func=oauth2.callback)
 
     return app
