@@ -30,20 +30,21 @@ def callback():
     state = flask.session['oauth2_state']
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
             OAUTH2_CLIENT, 
-            scopes=OAUTH2_SCOPES, 
+            scopes=OAUTH2_SCOPES,
             state=state)
     flow.redirect_uri = flask.url_for('oauth2_callback', _external=True)
 
     authorization_response = flask.request.url
+
     flow.fetch_token(authorization_response=authorization_response)
 
     credentials = flow.credentials
-    flask.session['oauth2_credentials'] = credentials_to_dict(credentials)
+    flask.session['oauth2_credentials'] = oauth2_credentials_to_dict(credentials)
 
-    return flask.redirect(flask.url_for('home'))
+    return flask.redirect(flask.session['request_full_path'])
 
 
-def credentials_to_dict(credentials):
+def oauth2_credentials_to_dict(credentials):
   return {'token': credentials.token,
           'refresh_token': credentials.refresh_token,
           'token_uri': credentials.token_uri,
