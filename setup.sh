@@ -7,9 +7,9 @@ source $SCRIPTPATH/.venv/bin/activate
 
 # Install dependencies
 $SCRIPTPATH/.venv/bin/pip3 install --upgrade pip
-$SCRIPTPATH/.venv/bin/pip3 install flask
-$SCRIPTPATH/.venv/bin/pip3 install google-api-python-client
-$SCRIPTPATH/.venv/bin/pip3 install google-auth-oauthlib
+$SCRIPTPATH/.venv/bin/pip3 install 'flask==2.0.1'
+$SCRIPTPATH/.venv/bin/pip3 install 'google-api-python-client==2.5.0'
+$SCRIPTPATH/.venv/bin/pip3 install 'google-auth-oauthlib==0.4.4'
 
 # Set program environment variables
 export GOOGLESHEET_OAUTH2_CLIENT="${SCRIPTPATH}/googlesheet-oauth2-client.json"
