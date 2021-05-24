@@ -9,7 +9,6 @@ source $SCRIPTPATH/.venv/bin/activate
 $SCRIPTPATH/.venv/bin/pip3 install --upgrade pip
 $SCRIPTPATH/.venv/bin/pip3 install flask
 $SCRIPTPATH/.venv/bin/pip3 install google-api-python-client
-$SCRIPTPATH/.venv/bin/pip3 install google-auth-httplib2
 $SCRIPTPATH/.venv/bin/pip3 install google-auth-oauthlib
 
 # Set program environment variables
