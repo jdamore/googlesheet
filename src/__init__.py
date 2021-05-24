@@ -5,7 +5,6 @@ from .controllers import home, oauth2, googlesheet
 
 def create_app(test_config=None):
 
-    print('hello_create_app')
     app = flask.Flask(__name__, instance_relative_config=True)
     app.secret_key = 'REPLACE ME - this value is here as a placeholder.'
     app.url_map.strict_slashes = False
