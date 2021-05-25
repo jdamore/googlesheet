@@ -10,6 +10,12 @@ OAUTH2_SCOPES = [
         'https://www.googleapis.com/auth/spreadsheets.readonly']
 
 
+def check_oauth2_credentials():
+    if ('oauth2_credentials' not in flask.session) and ('oauth2' not in flask.request.endpoint):
+        flask.session['request_full_path'] = flask.request.full_path
+        return flask.redirect(flask.url_for('oauth2'))
+
+
 def index():
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         OAUTH2_CLIENT, 
