@@ -24,42 +24,33 @@ def enforce_login():
         return flask.redirect(flask.url_for('oauth2.index'))
 
 
-def index():
+def create_flow(state=None):
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         OAUTH2_CLIENT, 
-        scopes=OAUTH2_SCOPES)
-
+        scopes=OAUTH2_SCOPES,
+        state=state)
     flow.redirect_uri = flask.url_for('oauth2.callback', _external=True)
+    return flow
 
+
+def index():
+    flow = create_flow()
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true')
-
     flask.session['oauth2_state'] = state
-
     return flask.redirect(authorization_url)
 
 
 def callback():
-    state = flask.session['oauth2_state']
-    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-            OAUTH2_CLIENT, 
-            scopes=OAUTH2_SCOPES,
-            state=state)
-    flow.redirect_uri = flask.url_for('oauth2.callback', _external=True)
-
-    authorization_response = flask.request.url
-
-    flow.fetch_token(authorization_response=authorization_response)
-
-    credentials = flow.credentials
-    flask.session['oauth2_credentials'] = oauth2_credentials_to_dict(credentials)
-
+    flow = create_flow(flask.session['oauth2_state'])
+    flow.fetch_token(authorization_response=flask.request.url)
+    flask.session['oauth2_credentials'] = oauth2_credentials_to_dict(flow.credentials)
     return flask.redirect(flask.session['request_full_path'])
 
 
 def oauth2_credentials_to_dict(credentials):
-  return {'token': credentials.token,
+    return {'token': credentials.token,
           'refresh_token': credentials.refresh_token,
           'token_uri': credentials.token_uri,
           'client_id': credentials.client_id,
