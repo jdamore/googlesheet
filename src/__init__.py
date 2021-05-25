@@ -11,12 +11,12 @@ def create_app(test_config=None):
     app.url_map.strict_slashes = False
 
     # Routing
-    app.add_url_rule('/', endpoint='home', view_func=home.index)
-    app.add_url_rule('/googlesheet', endpoint='googlesheet', view_func=googlesheet.index)
-    app.add_url_rule('/oauth2', endpoint='oauth2', view_func=oauth2.index)
-    app.add_url_rule('/oauth2/callback', endpoint='oauth2_callback', view_func=oauth2.callback)
+    app.add_url_rule('/', endpoint='home.index', view_func=home.index)
+    app.add_url_rule('/googlesheet', endpoint='googlesheet.index', view_func=googlesheet.index)
+    app.add_url_rule('/oauth2', endpoint='oauth2.index', view_func=oauth2.index)
+    app.add_url_rule('/oauth2/callback', endpoint='oauth2.callback', view_func=oauth2.callback)
 
     # Request pre and post processors
-    app.before_request(oauth2.check_oauth2_credentials)
+    app.before_request(oauth2.enforce_login)
 
     return app

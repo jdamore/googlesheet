@@ -10,10 +10,18 @@ OAUTH2_SCOPES = [
         'https://www.googleapis.com/auth/spreadsheets.readonly']
 
 
-def check_oauth2_credentials():
-    if ('oauth2_credentials' not in flask.session) and ('oauth2' not in flask.request.endpoint):
+def is_logged_in():
+    return ('oauth2_credentials' in flask.session)
+
+
+def is_logging_in():
+    return ('oauth2' in flask.request.endpoint)
+
+
+def enforce_login():
+    if not is_logged_in() and not is_logging_in():
         flask.session['request_full_path'] = flask.request.full_path
-        return flask.redirect(flask.url_for('oauth2'))
+        return flask.redirect(flask.url_for('oauth2.index'))
 
 
 def index():
@@ -21,7 +29,7 @@ def index():
         OAUTH2_CLIENT, 
         scopes=OAUTH2_SCOPES)
 
-    flow.redirect_uri = flask.url_for('oauth2_callback', _external=True)
+    flow.redirect_uri = flask.url_for('oauth2.callback', _external=True)
 
     authorization_url, state = flow.authorization_url(
         access_type='offline',
@@ -38,7 +46,7 @@ def callback():
             OAUTH2_CLIENT, 
             scopes=OAUTH2_SCOPES,
             state=state)
-    flow.redirect_uri = flask.url_for('oauth2_callback', _external=True)
+    flow.redirect_uri = flask.url_for('oauth2.callback', _external=True)
 
     authorization_response = flask.request.url
 
